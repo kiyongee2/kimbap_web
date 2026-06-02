@@ -11,8 +11,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
                 .allowedOrigins(
-                        "http://localhost:5173",  // Vite 개발 서버
-                        "http://localhost:4173"   // Vite 프리뷰
+                        "http://localhost:5173",        // Vite 개발 서버
+                        "http://localhost:4173",        // Vite 프리뷰
+                        "https://kimbap-ui.onrender.com" // Render 배포
                 )
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
