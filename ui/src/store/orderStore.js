@@ -3,7 +3,7 @@
  * 백엔드 REST API(/api/orders)를 통해 주문을 저장하고 조회한다.
  */
 
-const API_BASE = 'http://localhost:8080'
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080'
 
 /**
  * 고객이 주문 확정 시 호출. 백엔드 API에 주문을 POST한다.
