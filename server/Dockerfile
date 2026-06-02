@@ -18,6 +18,8 @@ RUN ./mvnw clean package -DskipTests -q
 # ── 2단계: 실행 ──────────────────────────────────────────────
 FROM eclipse-temurin:21-jre
 
+RUN apt-get update -qq && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY --from=builder /app/target/kimbap-server-0.0.1-SNAPSHOT.jar app.jar
