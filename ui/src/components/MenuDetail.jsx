@@ -12,20 +12,17 @@ function MenuDetail({ item, lang, onBack, onAddToCart }) {
   const t = translations[lang];
   const [quantity, setQuantity] = useState(1);
   const [favorite, setFavorite] = useState(false);
-  const [toast, setToast] = useState(false);
 
   const handleAdd = () => {
     onAddToCart(item, quantity);
-    setToast(true);
-    setTimeout(() => setToast(false), 2000);
   };
 
   return (
     <div className="detail-screen">
       {/* Header */}
       <header className="detail-header">
-        <button className="icon-btn" onClick={onBack} aria-label={t.back}>
-          ←
+        <button className="back-to-list-btn" onClick={onBack} aria-label={t.back}>
+          {t.back}
         </button>
         <span className="detail-header-title">{item.name[lang]}</span>
         <button
@@ -57,13 +54,14 @@ function MenuDetail({ item, lang, onBack, onAddToCart }) {
             {item.allergens.map((allergen) => {
               const key = allergen.toLowerCase();
               const badge = ALLERGEN_BADGE[key] ?? { icon: '⚠️', color: '#757575', bg: '#F5F5F5' };
+              const label = t.allergens?.[key] ?? allergen;
               return (
                 <span
                   key={allergen}
                   className="dietary-badge"
                   style={{ backgroundColor: badge.bg, color: badge.color }}
                 >
-                  {badge.icon}&nbsp;{allergen}
+                  {badge.icon}&nbsp;{label}
                 </span>
               );
             })}
@@ -76,17 +74,17 @@ function MenuDetail({ item, lang, onBack, onAddToCart }) {
                   : { backgroundColor: '#E8F5E9', color: '#2E7D32' }
               }
             >
-              {item.dietary.spicy ? '🌶️ Spicy' : '✅ Not Spicy'}
+              {item.dietary.spicy ? `🌶️ ${t.dietary?.spicy ?? 'Spicy'}` : `✅ ${t.dietary?.notSpicy ?? 'Not Spicy'}`}
             </span>
 
             {item.dietary.noPork && (
               <span className="dietary-badge" style={{ backgroundColor: '#FFEBEE', color: '#C62828' }}>
-                🚫 No Pork
+                🚫 {t.dietary?.noPork ?? 'No Pork'}
               </span>
             )}
             {item.dietary.vegan && (
               <span className="dietary-badge" style={{ backgroundColor: '#E8F5E9', color: '#2E7D32' }}>
-                🌿 Vegan
+                🌿 {t.dietary?.vegan ?? 'Vegan'}
               </span>
             )}
           </div>
@@ -129,8 +127,7 @@ function MenuDetail({ item, lang, onBack, onAddToCart }) {
         </button>
       </div>
 
-      {/* Toast */}
-      {toast && <div className="toast">✅&nbsp;{t.addToOrder}!</div>}
+
     </div>
   );
 }

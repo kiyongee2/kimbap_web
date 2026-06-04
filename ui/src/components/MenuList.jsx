@@ -2,7 +2,6 @@ import { useState } from 'react';
 import translations from '../i18n';
 
 const TAG_CONFIG = {
-  vegan:   { icon: '🌿', color: '#2E7D32', bg: '#E8F5E9' },
   noPork:  { icon: '🚫', color: '#C62828', bg: '#FFEBEE' },
   beef:    { icon: '🥩', color: '#4E342E', bg: '#EFEBE9' },
   spicy:   { icon: '🌶️', color: '#E53935', bg: '#FFEBEE' },

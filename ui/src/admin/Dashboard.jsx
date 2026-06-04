@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getTodayOrders, getOrders } from '../store/orderStore'
+import { getOrders } from '../store/orderStore'
 import { dashboardKpi, recentActivities as mockActivities } from './adminData'
 
 function formatRelativeTime(isoString) {
@@ -17,6 +17,17 @@ const ACTIVITY_META = {
   location: { icon: '📍', color: '#AB47BC' },
 }
 
+function isTodayKST(isoString) {
+  const d   = new Date(isoString)
+  const kst = new Date(d.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }))
+  return (
+    kst.getFullYear() === now.getFullYear() &&
+    kst.getMonth()    === now.getMonth()    &&
+    kst.getDate()     === now.getDate()
+  )
+}
+
 export default function Dashboard() {
   const [todayCount,   setTodayCount]   = useState(0)
   const [recentOrders, setRecentOrders] = useState([])
@@ -25,12 +36,10 @@ export default function Dashboard() {
   useEffect(() => {
     const refresh = async () => {
       try {
-        const [today, all] = await Promise.all([
-          getTodayOrders(),
-          getOrders(),
-        ])
-        setTodayCount(today.length)
-        setRecentOrders(all.slice(0, 5))
+        const all = await getOrders()
+        const sorted = [...all].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        setTodayCount(sorted.filter((o) => isTodayKST(o.createdAt)).length)
+        setRecentOrders(sorted.slice(0, 5))
       } catch (err) {
         console.error('대시보드 데이터 조회 오류:', err)
       }

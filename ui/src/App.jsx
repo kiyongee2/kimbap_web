@@ -78,7 +78,10 @@ function App() {
           item={selectedMenu}
           lang={lang}
           onBack={() => setScreen(SCREENS.MENU)}
-          onAddToCart={handleAddToCart}
+          onAddToCart={(item, qty) => {
+            handleAddToCart(item, qty)
+            setScreen(SCREENS.ORDER)
+          }}
         />
       )}
       {screen === SCREENS.ORDER && (
