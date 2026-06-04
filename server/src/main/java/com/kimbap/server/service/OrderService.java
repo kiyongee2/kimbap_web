@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,17 +34,19 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("주문을 찾을 수 없습니다. id=" + id));
     }
 
-    /** 오늘 주문 수 */
+    /** 오늘 주문 수 (KST 기준) */
     public long countToday() {
-        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-        LocalDateTime endOfDay = startOfDay.plusDays(1);
+        ZoneId kst = ZoneId.of("Asia/Seoul");
+        Instant startOfDay = LocalDate.now(kst).atStartOfDay(kst).toInstant();
+        Instant endOfDay   = LocalDate.now(kst).plusDays(1).atStartOfDay(kst).toInstant();
         return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay);
     }
 
-    /** 오늘 주문 목록 */
+    /** 오늘 주문 목록 (KST 기준) */
     public List<Order> findToday() {
-        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-        LocalDateTime endOfDay = startOfDay.plusDays(1);
+        ZoneId kst = ZoneId.of("Asia/Seoul");
+        Instant startOfDay = LocalDate.now(kst).atStartOfDay(kst).toInstant();
+        Instant endOfDay   = LocalDate.now(kst).plusDays(1).atStartOfDay(kst).toInstant();
         return orderRepository.findByCreatedAtBetween(startOfDay, endOfDay);
     }
 
