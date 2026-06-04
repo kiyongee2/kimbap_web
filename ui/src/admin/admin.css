@@ -314,6 +314,43 @@
   color: var(--primary, #E8622A);
 }
 
+/* 페이지네이션 */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0 8px;
+}
+
+.admin-page-btn {
+  background: var(--surface, #FFFFFF);
+  border: 1px solid var(--border, #E0E0E0);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 15px;
+  cursor: pointer;
+  color: var(--primary, #E8622A);
+  transition: background 0.15s;
+}
+
+.admin-page-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.admin-page-btn:not(:disabled):hover {
+  background: var(--primary-light, #FFF0EA);
+}
+
+.admin-page-info {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary, #888888);
+  min-width: 52px;
+  text-align: center;
+}
+
 /* ================================================
    SCREEN 1 — DASHBOARD
    ================================================ */
